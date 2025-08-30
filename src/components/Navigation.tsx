@@ -1,22 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, FileText, Zap } from "lucide-react";
-
-const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/business", label: "For Business" },
-    { href: "/students", label: "For Students" },
-    { href: "/how-it-works", label: "How It Works" },
-    { href: "/contact", label: "Contact" }
-  ];
-
-  const isActive = (path: string) => location.pathname === path;
->>>>>>> parent of 10faa93 (login added)
+import { Menu, X } from "lucide-react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,10 +21,9 @@ const Navigation = () => {
     <nav className="bg-background border-b">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-xl font-bold text-primary">
-              DocTweak
-            </Link>
+          <Link to="/" className="text-xl font-bold text-primary">
+            DocTweak
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -87,23 +71,6 @@ const Navigation = () => {
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-primary hover:bg-primary/5"
                   }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-}
-
-export default Navigation;
-                    isActive(link.href)
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
@@ -119,6 +86,7 @@ export default Navigation;
         )}
       </div>
     </nav>
->>>>>>> parent of 10faa93 (login added)
   );
-}
+};
+
+export default Navigation;
