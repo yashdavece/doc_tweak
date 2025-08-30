@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,6 +21,7 @@ const Students = () => {
   const [context, setContext] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [tweakedDocument, setTweakedDocument] = useState("");
 
@@ -142,8 +143,9 @@ ${fileName ? `Attached file: ${fileName}
                   onChange={(e) => setDocument(e.target.value)}
                 />
                 <div className="mt-3 flex items-start gap-3">
-                  {/* Hidden native file input for accessibility */}
+                  {/* Hidden native file input controlled via ref */}
                   <input
+                    ref={fileInputRef}
                     id="file"
                     type="file"
                     accept=".txt,.md,text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -164,12 +166,15 @@ ${fileName ? `Attached file: ${fileName}
                     className="sr-only"
                   />
 
-                  <label htmlFor="file" className="m-0">
-                    <Button variant="outline" size="sm" className="flex items-center px-3 py-2">
-                      <Upload className="w-4 h-4 mr-2" />
-                      <span className="text-sm">Choose File</span>
-                    </Button>
-                  </label>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center px-3 py-2"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    <span className="text-sm">Choose File</span>
+                  </Button>
 
                   <div className="text-sm mt-1">
                     {fileName ? (
