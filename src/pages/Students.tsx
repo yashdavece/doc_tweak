@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -73,10 +74,9 @@ ${fileName ? `Attached file: ${fileName}
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   useEffect(() => {
-    let mounted = true;
-    supabase.auth.getUser().then(({ data }) => { if (mounted) setUser(data.user); }).catch(()=>{});
+    supabase.auth.getUser().then(({ data }) => { setUser(data.user); }).catch(()=>{});
     const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => setUser(session?.user ?? null));
     return () => listener.subscription.unsubscribe();
   }, []);
