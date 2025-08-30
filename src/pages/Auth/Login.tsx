@@ -12,14 +12,22 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setIsLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    setIsLoading(false);
-    if (error) {
-      alert(error.message);
-      return;
+    try {
+      setIsLoading(true);
+      if (!supabase.auth) {
+        throw new Error("Auth configuration is missing. Please check environment variables.");
+      }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        throw error;
+      }
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      alert(error instanceof Error ? error.message : "An error occurred during login");
+    } finally {
+      setIsLoading(false);
     }
-    navigate("/");
   };
 
   return (
