@@ -1,8 +1,9 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "doctweak",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "DocTweak - AI-Powered Document Enhancement",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
