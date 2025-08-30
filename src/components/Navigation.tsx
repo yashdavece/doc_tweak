@@ -71,9 +71,6 @@ const Navigation = () => {
               </Link>
             ))}
             
-            <Button variant="hero" size="sm" asChild>
-              <Link to="/business">Get Started</Link>
-            </Button>
             {!user ? (
               <>
                 <Link to="/auth/login" className="text-sm ml-4">Log in</Link>

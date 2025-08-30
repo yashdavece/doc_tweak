@@ -1,5 +1,8 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -68,6 +71,16 @@ ${fileName ? `Attached file: ${fileName}
     }
   ];
 
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getUser().then(({ data }) => { if (mounted) setUser(data.user); }).catch(()=>{});
+    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => setUser(session?.user ?? null));
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       {/* Hero Section */}
@@ -86,11 +99,11 @@ ${fileName ? `Attached file: ${fileName}
             make your documents shine with AI-powered enhancement.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="student" size="lg" className="font-semibold">
+            <Button variant="student" size="lg" className="font-semibold" onClick={() => { if (!user) return navigate('/auth/login'); }}>
               <Wand2 className="w-5 h-5 mr-2" />
               Start Enhancing
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => { if (!user) return navigate('/auth/login'); }}>
               Success Stories
             </Button>
           </div>
