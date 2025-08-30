@@ -19,6 +19,8 @@ import {
 const Students = () => {
   const [document, setDocument] = useState("");
   const [context, setContext] = useState("");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [tweakedDocument, setTweakedDocument] = useState("");
 
@@ -30,11 +32,13 @@ const Students = () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     // Mock AI response
-    setTweakedDocument(`ENHANCED STUDENT DOCUMENT
+  setTweakedDocument(`ENHANCED STUDENT DOCUMENT
 
 ${document}
 
-[AI Enhancement Applied: Optimized for ${context}. Enhanced personal voice, improved structure, and strengthened impact while maintaining authenticity.]`);
+${fileName ? `Attached file: ${fileName}
+
+` : ""}[AI Enhancement Applied: Optimized for ${context}. Enhanced personal voice, improved structure, and strengthened impact while maintaining authenticity.]`);
     
     setIsProcessing(false);
   };
@@ -137,6 +141,39 @@ ${document}
                   value={document}
                   onChange={(e) => setDocument(e.target.value)}
                 />
+                <div className="mt-3 flex items-start gap-3">
+                  <input
+                    id="file"
+                    type="file"
+                    accept=".txt,.md,text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setUploadedFile(file);
+                      setFileName(file.name);
+                      try {
+                        if (file.type.startsWith("text/") || /\.(md|txt|json)$/i.test(file.name)) {
+                          const text = await file.text();
+                          setDocument(text);
+                        }
+                      } catch (err) {
+                        console.error("Failed to read uploaded file:", err);
+                      }
+                    }}
+                    className="text-sm"
+                  />
+                  <div className="text-sm mt-1">
+                    {fileName ? (
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Uploaded:</span>
+                        <span className="truncate max-w-xs">{fileName}</span>
+                        <button type="button" onClick={() => { setUploadedFile(null); setFileName(""); }} className="text-xs text-muted-foreground underline ml-2">Remove</button>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">You can upload a file (text files will be imported).</p>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div>
