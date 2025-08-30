@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, FileText, Zap } from "lucide-react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +18,15 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-background border-b">
-      <div className="max-w-screen-xl mx-auto px-4">
+    <nav className="bg-background/95 backdrop-blur-md border-b border-border sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold text-primary">
-            DocTweak
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 hover-glow">
+            <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-foreground">DocTweak</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -69,7 +73,7 @@ const Navigation = () => {
                   className={`block px-3 py-2 rounded-md text-base font-medium transition-smooth ${
                     isActive(link.href)
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >

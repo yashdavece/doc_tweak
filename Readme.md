@@ -89,17 +89,5 @@ Notes on caching: browsers heavily cache favicons. If you swap icons, you may ne
 - Wire enhancement to a real AI backend (OpenAI/Anthropic/etc.) and handle uploads server-side.
 - Add tests for the pages and upload behavior.
 
-<<<<<<< HEAD
 
-VITE_SUPABASE_ANON_KEY="your-anon-key"
-```
-
-3. Restart the dev server. You can now visit `/auth/signup` and `/auth/login` to create and authenticate accounts.
-
-Notes:
-- The repo adds `@supabase/supabase-js` and a small `src/lib/supabase.ts` client. The Navbar shows Login/Signup links when unauthenticated and a Logout button when authenticated.
-- For production, secure your Supabase keys and follow Supabase best practices for auth and row-level security.
-
-=======
->>>>>>> parent of 10faa93 (login added)
 
