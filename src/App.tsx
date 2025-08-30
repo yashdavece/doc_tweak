@@ -11,6 +11,8 @@ import Students from "./pages/Students";
 import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,8 @@ const App = () => (
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/auth/login" element={<Login />} />
+              <Route path="/auth/signup" element={<Signup />} />
               <Route path="/business" element={<Business />} />
               <Route path="/students" element={<Students />} />
               <Route path="/how-it-works" element={<HowItWorks />} />

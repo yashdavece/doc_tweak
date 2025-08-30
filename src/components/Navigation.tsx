@@ -1,11 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, FileText, Zap } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const getUser = async () => {
+      try {
+        const {
+          data: { user }
+        } = await supabase.auth.getUser();
+        if (mounted) setUser(user);
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+    getUser();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      mounted = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -48,6 +74,16 @@ const Navigation = () => {
             <Button variant="hero" size="sm" asChild>
               <Link to="/business">Get Started</Link>
             </Button>
+            {!user ? (
+              <>
+                <Link to="/auth/login" className="text-sm ml-4">Log in</Link>
+                <Link to="/auth/signup" className="text-sm ml-4">Sign up</Link>
+              </>
+            ) : (
+              <Button variant="outline" size="sm" onClick={async () => { await supabase.auth.signOut(); setUser(null); }}>
+                Logout
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}

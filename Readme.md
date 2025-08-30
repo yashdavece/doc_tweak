@@ -89,4 +89,22 @@ Notes on caching: browsers heavily cache favicons. If you swap icons, you may ne
 - Wire enhancement to a real AI backend (OpenAI/Anthropic/etc.) and handle uploads server-side.
 - Add tests for the pages and upload behavior.
 
+## Supabase authentication (optional)
+
+This project includes a minimal Supabase integration for authentication. To enable it locally:
+
+1. Create a Supabase project at https://app.supabase.com and copy the Project URL and anon key.
+2. Create a `.env` file at the repo root with the following variables:
+
+```env
+VITE_SUPABASE_URL="https://your-project-ref.supabase.co"
+VITE_SUPABASE_ANON_KEY="your-anon-key"
+```
+
+3. Restart the dev server. You can now visit `/auth/signup` and `/auth/login` to create and authenticate accounts.
+
+Notes:
+- The repo adds `@supabase/supabase-js` and a small `src/lib/supabase.ts` client. The Navbar shows Login/Signup links when unauthenticated and a Logout button when authenticated.
+- For production, secure your Supabase keys and follow Supabase best practices for auth and row-level security.
+
 
