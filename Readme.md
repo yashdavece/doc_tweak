@@ -89,20 +89,4 @@ Notes on caching: browsers heavily cache favicons. If you swap icons, you may ne
 - Wire enhancement to a real AI backend (OpenAI/Anthropic/etc.) and handle uploads server-side.
 - Add tests for the pages and upload behavior.
 
-## Contributing
 
-Open a PR on the `main` branch. Keep changes small and add tests if you modify behavior.
-
-## License
-
-Add a license file if you plan to open-source this project.
-
----
-
-If you'd like, I can also:
-- Generate a `favicon.svg.png` 512×512 raster from the SVG and overwrite the existing one.
-- Add drag/drop UX now. 
-- Add PDF/DOCX extraction using `mammoth`/`pdfjs-dist`.
-
-Tell me which of the above you'd like next and I'll implement it.
-change it 
