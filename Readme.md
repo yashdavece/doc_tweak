@@ -89,27 +89,7 @@ Notes on caching: browsers heavily cache favicons. If you swap icons, you may ne
 - Wire enhancement to a real AI backend (OpenAI/Anthropic/etc.) and handle uploads server-side.
 - Add tests for the pages and upload behavior.
 
-## Supabase authentication
 
-This project uses Supabase for authentication. To configure:
-
-### Local Development
-1. Create a Supabase project at https://app.supabase.com
-2. Copy your Project URL and anon key from Project Settings > API
-3. Create a `.env` file at the repo root with:
-```env
-VITE_SUPABASE_URL=your_project_url
-VITE_SUPABASE_ANON_KEY=your_anon_key
-```
-
-### Vercel Deployment
-1. In your Vercel project settings, add these environment variables:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-2. Get these values from your Supabase project settings
-3. After adding the environment variables, redeploy your site
-
-Without these environment variables properly configured, the auth functionality will not work and may result in a white screen after login attempts.
 VITE_SUPABASE_ANON_KEY="your-anon-key"
 ```
 
