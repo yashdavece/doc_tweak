@@ -76,9 +76,12 @@ ${fileName ? `Attached file: ${fileName}
 
   const [user, setUser] = useState<SupabaseUser | null>(null);
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => { setUser(data.user); }).catch(()=>{});
-    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => setUser(session?.user ?? null));
-    return () => listener.subscription.unsubscribe();
+    let mounted = true;
+    supabase.auth.getUser()
+      .then(({ data }) => { if (mounted) setUser(data.user); })
+      .catch(() => {});
+    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => { if (mounted) setUser(session?.user ?? null); });
+    return () => { mounted = false; listener.subscription.unsubscribe(); };
   }, []);
 
   return (
