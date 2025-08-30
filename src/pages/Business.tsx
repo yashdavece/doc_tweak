@@ -142,6 +142,7 @@ ${fileName ? `Attached file: ${fileName}
                   onChange={(e) => setDocument(e.target.value)}
                 />
                 <div className="mt-3 flex items-start gap-3">
+                  {/* Hidden native file input for accessibility */}
                   <input
                     id="file"
                     type="file"
@@ -160,8 +161,16 @@ ${fileName ? `Attached file: ${fileName}
                         console.error("Failed to read uploaded file:", err);
                       }
                     }}
-                    className="text-sm"
+                    className="sr-only"
                   />
+
+                  <label htmlFor="file" className="m-0">
+                    <Button variant="outline" size="sm" className="flex items-center px-3 py-2">
+                      <Upload className="w-4 h-4 mr-2" />
+                      <span className="text-sm">Choose File</span>
+                    </Button>
+                  </label>
+
                   <div className="text-sm mt-1">
                     {fileName ? (
                       <div className="flex items-center gap-2">
