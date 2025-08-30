@@ -26,7 +26,8 @@ const Business = () => {
   const [tweakedDocument, setTweakedDocument] = useState("");
 
   const handleTweak = async () => {
-    if (!document.trim() || !context.trim()) return;
+  // Require a document (pasted) OR an uploaded file, and require context
+  if (!(document.trim() || uploadedFile) || !context.trim()) return;
     
     setIsProcessing(true);
     // Simulate AI processing
@@ -205,7 +206,7 @@ ${fileName ? `Attached file: ${fileName}
 
               <Button 
                 onClick={handleTweak}
-                disabled={!document.trim() || !context.trim() || isProcessing}
+                disabled={!( (document.trim() || uploadedFile) && context.trim() ) || isProcessing}
                 className="w-full" 
                 variant="business"
                 size="lg"
