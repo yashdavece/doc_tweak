@@ -16,6 +16,9 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
   ],
+  define: {
+    'process.env.OPENROUTER_API_KEY': JSON.stringify(process.env.OPENROUTER_API_KEY),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
