@@ -21,6 +21,7 @@ const DocTweak: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
+  const [sideBySide, setSideBySide] = useState(false);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -63,6 +64,29 @@ const DocTweak: React.FC = () => {
     }
   }
 
+  function copyResult() {
+    if (!result) return;
+    navigator.clipboard.writeText(result).then(() => {
+      alert('Tweaked text copied to clipboard');
+    }).catch((e) => {
+      console.error('Clipboard error', e);
+      alert('Failed to copy to clipboard');
+    });
+  }
+
+  function downloadResult(filename = 'tweaked-document.txt') {
+    if (!result) return;
+    const blob = new Blob([result], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="space-y-4">
       <div>
@@ -84,8 +108,35 @@ const DocTweak: React.FC = () => {
 
       {result && (
         <div>
-          <h3 className="text-lg font-semibold">Tweaked Document</h3>
-          <pre className="whitespace-pre-wrap bg-muted p-4 rounded mt-2">{result}</pre>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Tweaked Document</h3>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm text-muted-foreground">Side-by-side</label>
+              <input type="checkbox" checked={sideBySide} onChange={() => setSideBySide(!sideBySide)} />
+            </div>
+          </div>
+
+          {sideBySide ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              <div>
+                <h4 className="font-semibold mb-1">Original</h4>
+                <pre className="whitespace-pre-wrap bg-muted p-3 rounded h-64 overflow-auto">{inputText}</pre>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-1">Tweaked</h4>
+                <pre className="whitespace-pre-wrap bg-muted p-3 rounded h-64 overflow-auto">{result}</pre>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <pre className="whitespace-pre-wrap bg-muted p-4 rounded mt-2">{result}</pre>
+            </div>
+          )}
+
+          <div className="flex items-center space-x-2 mt-3">
+            <Button onClick={copyResult} size="sm">Copy</Button>
+            <Button onClick={() => downloadResult()} size="sm">Download .txt</Button>
+          </div>
         </div>
       )}
     </div>
@@ -93,3 +144,4 @@ const DocTweak: React.FC = () => {
 };
 
 export default DocTweak;
+ 
